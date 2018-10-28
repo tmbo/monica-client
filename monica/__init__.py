@@ -1,31 +1,26 @@
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-
 import logging
-
 import requests
+from typing import Text, Dict, Any
 
 logger = logging.getLogger(__name__)
 
-API_URL = "https://app.monicahq.com/api"
+API_URL: Text = "https://app.monicahq.com/api"
 
-API_VERSION = "1.0"
+API_VERSION: Text = "1.0"
 
 
 class MonicaClient(object):
 
     def __init__(self,
-                 access_token,
-                 api_url=API_URL,
-                 api_version=API_VERSION
+                 access_token: Text,
+                 api_url: Text = API_URL,
+                 api_version: Text = API_VERSION
                  ):
         self.access_token = access_token
         self.api_url = api_url
         self.api_version = api_version
 
-    def _call_api(self, sub_url):
+    def _call_api(self, sub_url: Text) -> Any:
         url = "{}/{}".format(self.api_url, sub_url)
 
         logger.debug("Calling Monica API '{}'".format(url))
@@ -44,5 +39,5 @@ class MonicaClient(object):
 
         return result.json()
 
-    def me(self):
+    def me(self) -> Dict[Text, Any]:
         return self._call_api("me").get("data")
